@@ -38,7 +38,7 @@ Before provisioning an on-premise API gateway environment, you will want to chec
         ![00-accesstoken-e.png](./img/00-accesstoken-e.png)
 
     > **Note:** Don't forget to copy your token into a safe place as this is the only point where you'll be able to view it. If you fail to do so, you can always create a new access token.
-    
+
 ### Step 1: Deploy APIcast using the OpenShift template
 
 
@@ -91,9 +91,13 @@ Before provisioning an on-premise API gateway environment, you will want to chec
 
     ![20-openshift-create-route.png](./img/20-openshift-create-route.png)
 
-    Enter the same host you set in 3scale above in the section **Staging Public Base URL** (without the http:// and without the port), in this lab's step 1: `customer-api-staging.<OPENSHIFT-SERVER-IP>.nip.io`, then click the **Create** button.
+    In the **Name** field type **apicast**, leave all other fields with default values, then click the **Create** button.
 
-    ![21-openshift-route-config.png](./img/21-openshift-route-config.png)
+    ![21b-openshift-route-config.png](./img/21b-openshift-route-config.png)
+
+    Make a note of the **Route** just created.    This is your staging route, and it should be something like:
+
+    **http://apicast-myfuseproject.192.168.99.100.nip.io**
 
 1. Now add the production route. This time select `Applications -> Routes` from the left options.
 
@@ -103,15 +107,13 @@ Before provisioning an on-premise API gateway environment, you will want to chec
 
     ![23-create-route.png](./img/23-create-route.png)
 
-1. Fill in the information.
+1. In the **Name** field type **apicast-production**, leave all other fields with default values, then click the **Create** button.
 
-    **Name:** `apicast-production`
+    ![24b-production-route.png](./img/24b-production-route.png)
 
-    **Hostname:** `customer-api-production.<OPENSHIFT-SERVER-IP>.nip.io`
+    Make a note of the **Route** just created.  This is your production route, and it should be something like:
 
-    ![24-production-route.png](./img/24-production-route.png)
-
-1. Click on the `Create` button in the botton of the page to save the production route.
+    **http://apicast-myfuseproject.192.168.99.100.nip.io**
 
     Your API Gateways are now ready to receive traffic. OpenShift takes care of load-balancing incoming requests to the route across the two running APIcast instances.
 
@@ -198,9 +200,13 @@ Your 3scale Admin Portal (http://&lt;YOURDOMAIN&gt;-admin.3scale.net) provides a
 
     **Private Base URL:** `http://camel-ose-springboot-xml:80`
 
-    **Staging Public Base URL:** `http://customer-api-staging.<OPENSHIFT-SERVER-IP>.nip.io:80`
+    **Staging Public Base URL:** taken from the step from above when you created the **Staging Route**
 
-    **Production Public Base URL:** `http://customer-api-production.<OPENSHIFT-SERVER-IP>.nip.io:80`
+     `http://apicast-myfuseproject.192.168.99.100.nip.io:80`
+
+    **Production Public Base URL:**  taken from the step from above when you created the **Production Route**
+
+     `http://apicast-production-myfuseproject.192.168.99.100.nip.io:80`
 
     ![07-baseurl-configuration.png](./img/07-baseurl-configuration.png)
 
